@@ -5,6 +5,8 @@ import random
  
 pygame.init()
 
+joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
+
 camera = pygame.math.Vector2((0, 0))
 vec = pygame.math.Vector2 #2 for two dimensional
  
@@ -35,14 +37,12 @@ class Player(pygame.sprite.Sprite):
         self.acc = vec(0,0)
         self.jumping = False
  
-    def move(self):
+    def move(self,gauche,droite):
         self.acc = vec(0,0.5)
-    
-        pressed_keys = pygame.key.get_pressed()
                 
-        if pressed_keys[K_LEFT] or pressed_keys[K_q]:
+        if gauche:
             self.acc.x = -ACC
-        if pressed_keys[K_RIGHT] or pressed_keys[K_d]:
+        if droite:
             self.acc.x = ACC
                  
         self.acc.x += self.vel.x * FRIC
@@ -86,8 +86,8 @@ class Platform(pygame.sprite.Sprite):
         self.surf.fill(color)
         self.rect = self.surf.get_rect(center = pos)
 
-    def move(self):
-        pass
+    def move(self,gauche,droite):
+        pass 
 
 
 class Texte(pygame.sprite.Sprite):
@@ -95,7 +95,7 @@ class Texte(pygame.sprite.Sprite):
         super().__init__()
         self.surf = my_font.render(txt, False, (255, 255, 255))
         self.rect = self.surf.get_rect(center = (x, y))
-    def move(self):
+    def move(self,gauche,droite):
         pass
 
 
@@ -103,16 +103,22 @@ class Texte(pygame.sprite.Sprite):
 all_sprites = pygame.sprite.Group()
 platforms = pygame.sprite.Group()
 
+
+
+
 P1 = Player()
 all_sprites.add(P1)
 
-T1 = Texte("C'est une drogue",-150, HEIGHT+300)
-all_sprites.add(T1)
+spanw_txt = Texte("†",27, 360)
+all_sprites.add(spanw_txt)
+
 
 PT0 = Platform((100, 20),(43,255,255),(-100, HEIGHT+200))
 all_sprites.add(PT0)
 platforms.add(PT0)
 
+drug_txt = Texte("C'est une drogue",-150, HEIGHT+300)
+all_sprites.add(drug_txt)
 
 for i in range(272):
     PT = Platform(((WIDTH/30), 15),(255,255,255),((WIDTH/30)*i, HEIGHT - 5*i))
@@ -135,6 +141,26 @@ PT01 = Platform((100, 20),(43,255,255),(-200, 2200))
 all_sprites.add(PT01)
 platforms.add(PT01)
 
+tout_en_bas_txt = Texte("?",-200, 2100)
+all_sprites.add(tout_en_bas_txt)
+
+mid_txt = Texte("J'ai compté, il y a 272 marches",3650, -250)
+all_sprites.add(mid_txt)
+
+fin_escalier_droite_txt = Texte("Je te sens perplexe Epsilon",7300, -800)
+all_sprites.add(fin_escalier_droite_txt)
+
+
+check_haut_escalier = False
+check_bas_derniere_platform = False
+new_bas_last_plat_added = False
+new_haut_escalier_added = False
+
+gauche = False
+droite = False
+
+deadzone = 0.3
+
 while True:
 
     #quand P1 entre en collision avec platforms
@@ -144,12 +170,46 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-        if event.type == pygame.KEYDOWN:    
+        if event.type == pygame.KEYDOWN:  
+            if event.key == pygame.K_q or event.key == pygame.K_LEFT:
+                gauche = True
+            if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                droite = True  
             if event.key == pygame.K_SPACE or event.key == pygame.K_z or event.key == pygame.K_UP:
                 P1.jump()
-        if event.type == pygame.KEYUP:    
+        if event.type == pygame.KEYUP:   
+            if event.key == pygame.K_q or event.key == pygame.K_LEFT:
+                gauche = False
+            if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                droite = False 
             if event.key == pygame.K_SPACE or event.key == pygame.K_z or event.key == pygame.K_UP:
                 P1.cancel_jump()
+
+        if event.type == pygame.JOYBUTTONDOWN:      
+            if  event.button == 4:
+                gauche = True
+            if  event.button == 5:
+                droite = True  
+            if  event.button == 0:
+                P1.jump()
+        if event.type == pygame.JOYBUTTONUP:      
+            if  event.button == 4:
+                gauche = False
+            if  event.button == 5:
+                droite = False 
+            if  event.button == 0:
+                P1.cancel_jump()
+
+        if pygame.joystick.get_count()>0:
+            axis_pos = joysticks[0].get_axis(0)
+
+            if axis_pos < -1 * deadzone:
+                gauche = True
+            elif axis_pos > deadzone:
+                droite = True  
+            else:
+                gauche = False
+                droite = False 
 
     #fond noir
     screen.fill((0,0,0))
@@ -160,11 +220,39 @@ while True:
      
     #deplacer les sprites 
     for entity in all_sprites:
-        entity.move()
+        entity.move(gauche,droite)
         screen.blit(entity.surf, (entity.rect.x - camera.x, entity.rect.y - camera.y))
 
     if (P1.rect.y - camera.y) > HEIGHT:
         P1.into_the_void()
+
+    
+
+    if P1.pos.x>7100 and not new_bas_last_plat_added:
+        check_haut_escalier = True
+        if check_bas_derniere_platform:
+            tout_en_bas_txt.kill()
+            tout_en_bas_txt = Texte("Tiens ton susucre :)",-200, 2100)
+            all_sprites.add(tout_en_bas_txt)
+
+            PTNEXT = Platform((500, 20),(43,255,255),(-300, 2400))
+            all_sprites.add(PTNEXT)
+            platforms.add(PTNEXT)
+
+            new_bas_last_plat_added = True
+
+    if P1.pos.y>2190 and P1.pos.x<1100 and not new_haut_escalier_added:
+        check_bas_derniere_platform = True
+        if check_haut_escalier:
+            fin_escalier_droite_txt.kill()
+            fin_escalier_droite_txt = Texte("Quoi ? Non, je ne me joue pas de toi :)",7300, -800)
+            all_sprites.add(fin_escalier_droite_txt)
+
+            PTNEXT2 = Platform((500, 20),(43,255,255),(7600, -900))
+            all_sprites.add(PTNEXT2)
+            platforms.add(PTNEXT2)
+
+            new_haut_escalier_added = True
 
     pygame.display.update()
     FramePerSec.tick(FPS)
