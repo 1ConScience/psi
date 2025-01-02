@@ -18,6 +18,9 @@ FramePerSec = pygame.time.Clock()
  
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("psi")
+
+pygame.font.init()
+my_font = pygame.font.SysFont(None, 30)
  
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -70,17 +73,30 @@ class Player(pygame.sprite.Sprite):
                     self.jumping = False
 
     def into_the_void(self):
-        self.pos.y = 0
+        self.pos = vec((27, 360))
+        self.vel = vec(0,0)
+        self.acc = vec(0,0)
+        self.jumping = False
  
  
-class platform(pygame.sprite.Sprite):
-    def __init__(self):
+class Platform(pygame.sprite.Sprite):
+    def __init__(self,size,color,pos):
         super().__init__()
+        self.surf = pygame.Surface(size)
+        self.surf.fill(color)
+        self.rect = self.surf.get_rect(center = pos)
+
     def move(self):
         pass
 
 
-
+class Texte(pygame.sprite.Sprite):
+    def __init__(self,txt,x,y):
+        super().__init__()
+        self.surf = my_font.render(txt, False, (255, 255, 255))
+        self.rect = self.surf.get_rect(center = (x, y))
+    def move(self):
+        pass
 
 
 
@@ -90,35 +106,34 @@ platforms = pygame.sprite.Group()
 P1 = Player()
 all_sprites.add(P1)
 
-PT0 = platform()
-PT0.surf = pygame.Surface((100, 20))
-PT0.surf.fill((43,255,255))
-PT0.rect = PT0.surf.get_rect(center = (-100, HEIGHT+200))
+T1 = Texte("C'est une drogue",-150, HEIGHT+300)
+all_sprites.add(T1)
+
+PT0 = Platform((100, 20),(43,255,255),(-100, HEIGHT+200))
 all_sprites.add(PT0)
 platforms.add(PT0)
 
-PT01 = platform()
-PT01.surf = pygame.Surface((100, 20))
-PT01.surf.fill((255,255,255))
-PT01.rect = PT01.surf.get_rect(center = (-200, HEIGHT+400))
-all_sprites.add(PT01)
-platforms.add(PT01)
-
 
 for i in range(272):
-    PT = platform()
-    PT.surf = pygame.Surface(((WIDTH/30), 15))
-    PT.surf.fill((255,255,255))
-    PT.rect = PT.surf.get_rect(center = ((WIDTH/30)*i, HEIGHT - 5*i))
-
+    PT = Platform(((WIDTH/30), 15),(255,255,255),((WIDTH/30)*i, HEIGHT - 5*i))
     all_sprites.add(PT)
     platforms.add(PT)
 
 
-pygame.font.init()
-my_font = pygame.font.SysFont(None, 30)
-text_surface = my_font.render("C'est une drogue", False, (255, 255, 255))
+def tree(x,y,profondeur):
+    profondeur+=1
+    if profondeur < 7 :
+        plat = Platform(((WIDTH/30), 15),(255,255,255),(x, y))
+        all_sprites.add(plat)
+        platforms.add(plat)
+        tree(x-50, y+200,profondeur)
+        tree(x+50, y+200,profondeur)
 
+tree(-200, HEIGHT+400,0)
+
+PT01 = Platform((100, 20),(43,255,255),(-200, 2200))
+all_sprites.add(PT01)
+platforms.add(PT01)
 
 while True:
 
@@ -138,9 +153,8 @@ while True:
 
     #fond noir
     screen.fill((0,0,0))
-    screen.blit(text_surface, (0,0))
 
-    #ajust cam
+    #ajust camera
     camera.x = P1.pos.x - WIDTH / 2
     camera.y = P1.pos.y - HEIGHT / 2
      
