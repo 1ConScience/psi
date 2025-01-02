@@ -13,7 +13,8 @@ vec = pygame.math.Vector2 #2 for two dimensional
 WIDTH = 800
 HEIGHT = 600
 ACC = 0.5
-FRIC = -0.12
+#FRIC = -0.12
+FRIC = -0.09
 FPS = 60
  
 FramePerSec = pygame.time.Clock()
@@ -78,6 +79,12 @@ class Player(pygame.sprite.Sprite):
         self.acc = vec(0,0)
         self.jumping = False
  
+    def test_portes(self):
+        hits = pygame.sprite.spritecollide(self ,portes, False)
+        if hits:
+            pygame.quit()
+            sys.exit()
+ 
  
 class Platform(pygame.sprite.Sprite):
     def __init__(self,size,color,pos):
@@ -87,7 +94,18 @@ class Platform(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect(center = pos)
 
     def move(self,gauche,droite):
-        pass 
+        pass
+
+
+class Porte(pygame.sprite.Sprite):
+    def __init__(self,size,color,pos):
+        super().__init__()
+        self.surf = pygame.Surface(size)
+        self.surf.fill(color)
+        self.rect = self.surf.get_rect(center = pos)
+
+    def move(self,gauche,droite):
+        pass    
 
 
 class Texte(pygame.sprite.Sprite):
@@ -102,7 +120,7 @@ class Texte(pygame.sprite.Sprite):
 
 all_sprites = pygame.sprite.Group()
 platforms = pygame.sprite.Group()
-
+portes = pygame.sprite.Group()
 
 
 
@@ -149,6 +167,7 @@ all_sprites.add(mid_txt)
 
 fin_escalier_droite_txt = Texte("Je te sens perplexe Epsilon",7300, -800)
 all_sprites.add(fin_escalier_droite_txt)
+
 
 
 check_haut_escalier = False
@@ -235,9 +254,13 @@ while True:
             tout_en_bas_txt = Texte("Tiens ton susucre :)",-200, 2100)
             all_sprites.add(tout_en_bas_txt)
 
-            PTNEXT = Platform((500, 20),(43,255,255),(-300, 2400))
+            PTNEXT = Platform((1000, 20),(255,255,255),(-800, 2350))
             all_sprites.add(PTNEXT)
             platforms.add(PTNEXT)
+
+            porte1 = Platform((16, 60),(0,255,26),(-1292, 2310))
+            all_sprites.add(porte1)
+            portes.add(porte1)
 
             new_bas_last_plat_added = True
 
@@ -248,11 +271,17 @@ while True:
             fin_escalier_droite_txt = Texte("Quoi ? Non, je ne me joue pas de toi :)",7300, -800)
             all_sprites.add(fin_escalier_droite_txt)
 
-            PTNEXT2 = Platform((500, 20),(43,255,255),(7600, -900))
+            PTNEXT2 = Platform((1000, 20),(43,255,255),(7800, -900))
             all_sprites.add(PTNEXT2)
             platforms.add(PTNEXT2)
 
+            porte2 = Platform((16, 60),(0,255,26),(8293, -940))
+            all_sprites.add(porte2)
+            portes.add(porte2)
+
             new_haut_escalier_added = True
+
+    P1.test_portes()
 
     pygame.display.update()
     FramePerSec.tick(FPS)
