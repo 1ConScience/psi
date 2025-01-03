@@ -119,9 +119,9 @@ class Porte(pygame.sprite.Sprite):
 
 
 class Texte(pygame.sprite.Sprite):
-    def __init__(self,txt,x,y):
+    def __init__(self,txt,x,y,color):
         super().__init__()
-        self.surf = my_font.render(txt, False, (43,255,255))
+        self.surf = my_font.render(txt, False, color)
         self.rect = self.surf.get_rect(center = (x, y))
     def move(self,gauche,droite):
         pass
@@ -225,7 +225,7 @@ for i in range(27):
 
 
 
-never_txt = Texte("Quel endroit magnifique...",0, -1950)
+never_txt = Texte("Quel endroit magnifique...",0, -1950,(43,255,255))
 all_sprites.add(never_txt)
 
 

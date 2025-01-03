@@ -2,9 +2,7 @@ import pygame
 from pygame.locals import *
 import sys
 
-import glob
-from pathlib import Path
-import os
+
 
 
 
@@ -20,11 +18,17 @@ HEIGHT = 720
 ACC = 0.5
 #FRIC = -0.12
 FRIC = -0.09
-FPS = 60
+FPS = 120
  
 FramePerSec = pygame.time.Clock()
  
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
+infoObject = pygame.display.Info()
+WIDTH = infoObject.current_w
+HEIGHT = infoObject.current_h
+screen = pygame.display.set_mode((WIDTH, HEIGHT),pygame.FULLSCREEN,pygame.DOUBLEBUF)
+
+
 pygame.display.set_caption("psi")
 
 
@@ -34,6 +38,11 @@ my_font = pygame.font.SysFont('Times New Roman', 30)
 
 image_droite = pygame.image.load("e.png").convert_alpha()
 image_gauche = pygame.image.load("e_inv.png").convert_alpha()
+
+image_droite_pink = pygame.image.load("e_pink.png").convert_alpha()
+image_gauche_pink = pygame.image.load("e_inv_pink.png").convert_alpha()
+
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -45,16 +54,23 @@ class Player(pygame.sprite.Sprite):
         self.vel = vec(0,0)
         self.acc = vec(0,0)
         self.jumping = False
+        self.pinked = False
  
     def move(self,gauche,droite):
         self.acc = vec(0,0.5)
                 
         if gauche:
             self.acc.x = -ACC
-            self.surf = image_gauche
+            if self.pinked :
+                self.surf = image_gauche_pink
+            else :
+                self.surf = image_gauche
         if droite:
             self.acc.x = ACC
-            self.surf = image_droite
+            if self.pinked :
+                self.surf = image_droite_pink
+            else :
+                self.surf = image_droite
                  
         self.acc.x += self.vel.x * FRIC
         self.vel += self.acc
@@ -82,6 +98,17 @@ class Player(pygame.sprite.Sprite):
                     self.pos.y = hits[0].rect.top +1
                     self.vel.y = 0
                     self.jumping = False
+        
+        hits = pygame.sprite.spritecollide(self ,loves, False)
+        if hits:
+            self.pinked = True      
+        
+        hits = pygame.sprite.spritecollide(self ,murs, False)
+        if self.vel.x > 0 and not self.pinked:        
+            if hits:
+                if self.pos.x > hits[0].rect.left:               
+                    self.pos.x = hits[0].rect.left -1  
+                    self.vel.x = 0
 
     def into_the_void(self):
         self.pos = vec((27, 360))
@@ -105,6 +132,17 @@ class Platform(pygame.sprite.Sprite):
 
     def move(self,gauche,droite):
         pass
+ 
+ 
+class Mur(pygame.sprite.Sprite):
+    def __init__(self,size,color,pos):
+        super().__init__()
+        self.surf = pygame.Surface(size)
+        self.surf.fill(color)
+        self.rect = self.surf.get_rect(center = pos)
+
+    def move(self,gauche,droite):
+        pass
 
 
 class Porte(pygame.sprite.Sprite):
@@ -119,88 +157,23 @@ class Porte(pygame.sprite.Sprite):
 
 
 class Texte(pygame.sprite.Sprite):
-    def __init__(self,txt,x,y):
+    def __init__(self,txt,x,y,color):
         super().__init__()
-        self.surf = my_font.render(txt, False, (43,255,255))
+        self.surf = my_font.render(txt, False, color)
         self.rect = self.surf.get_rect(center = (x, y))
     def move(self,gauche,droite):
         pass
 
 
-class Tableau(pygame.sprite.Sprite):
-    def __init__(self,image,x,y):
-        super().__init__()
-        self.surf = image
-        self.rect = self.surf.get_rect(center = (x, y))
-    def move(self,gauche,droite):
-        pass
+
 
 
 
 all_sprites = pygame.sprite.Group()
 platforms = pygame.sprite.Group()
 portes = pygame.sprite.Group()
-
-
-
-
-
-
-home = Path.home()
-
-# get the path/directory
-folder_dir = glob.escape(home) + "/Pictures"
-
-
-liste_images = []
-
-nb_photos = 0
-
-
-#liste un a un de facon recursive les dossiers se trouvant dans le dossier image de l'utilisateur
-def get_dirlist(rootdir):
-
-    dirlist = []
-
-    with os.scandir(rootdir) as rit:
-        for entry in rit:
-            if not entry.name.startswith('.') and entry.is_dir():
-                dirlist.append(entry.path)
-                dirlist += get_dirlist(entry.path)
-
-    return dirlist
-
-
-
-
-
-for prout in get_dirlist(folder_dir):
-
-    # iterate over files in
-    # that directory
-    for img in glob.iglob(f'{prout}/*'):
-    
-        # check if the image ends with png
-        if (img.endswith(".jpg")):
-            image = pygame.image.load(img).convert()
-            image = pygame.transform.scale(image, (WIDTH/10, HEIGHT/10)) 
-            liste_images.append(image)
-
-            nb_photos +=1
-
-        if nb_photos>10:
-            break
-
-    if nb_photos>10:
-        break
-
-
-
-
-for index, image in enumerate(liste_images):
-    tableau = Tableau(image,WIDTH+index*300, -1950)
-    all_sprites.add(tableau)
-
+loves = pygame.sprite.Group()
+murs = pygame.sprite.Group()
 
 
 
@@ -209,25 +182,38 @@ for index, image in enumerate(liste_images):
 P1 = Player()
 all_sprites.add(P1)
 
-PT1 = Platform((20000, 20),(255,255,255),(0, -1880))
-all_sprites.add(PT1)
-platforms.add(PT1)
+plat = Platform((2000, 20),(255,255,255),(0, HEIGHT))
+all_sprites.add(plat)
+platforms.add(plat)
 
-porte = Porte(((WIDTH/30)*26, HEIGHT - 200*27))
+
+
+mur_droit = Mur((20, 1500),(255, 16, 240),(500, HEIGHT-760))
+all_sprites.add(mur_droit)
+murs.add(mur_droit)
+
+
+id_txt = Texte("Les bonnes idées finissent toujours pas revenir",0, HEIGHT-50,(255,255,255))
+all_sprites.add(id_txt)
+
+
+love_txt = Texte("<",400, 412,(255, 16, 240))
+all_sprites.add(love_txt)
+loves.add(love_txt)
+
+porte = Porte((800, HEIGHT-40))
 all_sprites.add(porte)
 portes.add(porte)
 
 
-for i in range(27):
-    PT = Platform((200, 15),(255,255,255),((WIDTH/30)*i, HEIGHT - 200*i))
-    all_sprites.add(PT)
-    platforms.add(PT)
+pl = Platform((100, 20),(255,255,255),(400, HEIGHT - 1000))
+all_sprites.add(pl)
+platforms.add(pl)
 
-
-
-never_txt = Texte("Quel endroit magnifique...",0, -1950)
-all_sprites.add(never_txt)
-
+for i in range(6):
+    pl = Platform((30*i, 20),(255,255,255),(490-(15*i), HEIGHT - i*200))
+    all_sprites.add(pl)
+    platforms.add(pl)
 
 
 
@@ -238,6 +224,7 @@ deadzone = 0.3
 
 while True:
 
+
     #quand P1 entre en collision avec platforms
     P1.update()
 
@@ -245,6 +232,10 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+        if event.type == pygame.KEYDOWN:  
+            if event.key == pygame.K_ESCAPE:   
+                pygame.quit()
+                sys.exit() 
         if event.type == pygame.KEYDOWN:  
             if event.key == pygame.K_q or event.key == pygame.K_LEFT:
                 gauche = True

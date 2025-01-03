@@ -112,9 +112,9 @@ class Porte(pygame.sprite.Sprite):
 
 
 class Texte(pygame.sprite.Sprite):
-    def __init__(self,txt,x,y):
+    def __init__(self,txt,x,y,color):
         super().__init__()
-        self.surf = my_font.render(txt, False, (255, 255, 255))
+        self.surf = my_font.render(txt, False, color)
         self.rect = self.surf.get_rect(center = (x, y))
     def move(self,gauche,droite):
         pass
@@ -130,7 +130,7 @@ portes = pygame.sprite.Group()
 P1 = Player()
 all_sprites.add(P1)
 
-spanw_txt = Texte("†",27, 360)
+spanw_txt = Texte("†",27, 360,(255, 255, 255))
 all_sprites.add(spanw_txt)
 
 
@@ -138,7 +138,7 @@ PT0 = Platform((100, 20),(43,255,255),(-100, HEIGHT+200))
 all_sprites.add(PT0)
 platforms.add(PT0)
 
-drug_txt = Texte("C'est une drogue",-150, HEIGHT+300)
+drug_txt = Texte("C'est une drogue",-150, HEIGHT+300,(255, 255, 255))
 all_sprites.add(drug_txt)
 
 for i in range(272):
@@ -162,13 +162,13 @@ PT01 = Platform((100, 20),(43,255,255),(-200, 2200))
 all_sprites.add(PT01)
 platforms.add(PT01)
 
-tout_en_bas_txt = Texte("?",-200, 2100)
+tout_en_bas_txt = Texte("?",-200, 2100,(255, 255, 255))
 all_sprites.add(tout_en_bas_txt)
 
-mid_txt = Texte("J'ai compté, il y en a 272",3650, -250)
+mid_txt = Texte("J'ai compté, il y en a 272",3650, -250,(255, 255, 255))
 all_sprites.add(mid_txt)
 
-fin_escalier_droite_txt = Texte("Je te sens perplexe Epsilon",7300, -800)
+fin_escalier_droite_txt = Texte("Je te sens perplexe Epsilon",7300, -800,(255, 255, 255))
 all_sprites.add(fin_escalier_droite_txt)
 
 
@@ -254,7 +254,7 @@ while True:
         check_haut_escalier = True
         if check_bas_derniere_platform:
             tout_en_bas_txt.kill()
-            tout_en_bas_txt = Texte("Tiens ton susucre :)",-200, 2100)
+            tout_en_bas_txt = Texte("Tiens ton susucre :)",-200, 2100,(255, 255, 255))
             all_sprites.add(tout_en_bas_txt)
 
             PTNEXT = Platform((1000, 20),(255,255,255),(-800, 2350))
@@ -271,7 +271,7 @@ while True:
         check_bas_derniere_platform = True
         if check_haut_escalier:
             fin_escalier_droite_txt.kill()
-            fin_escalier_droite_txt = Texte("Quoi ? Non, je ne me joue pas de toi :)",7300, -800)
+            fin_escalier_droite_txt = Texte("Quoi ? Non, je ne me joue pas de toi :)",7300, -800,(255, 255, 255))
             all_sprites.add(fin_escalier_droite_txt)
 
             PTNEXT2 = Platform((1000, 20),(43,255,255),(7800, -900))
