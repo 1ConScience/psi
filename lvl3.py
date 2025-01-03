@@ -24,7 +24,7 @@ def lvl3():
 
 
 
-    love_txt = Texte("<",390, -108,(255, 16, 240))
+    love_txt = Texte("<",375, -228,(255, 16, 240))
     all_sprites.add(love_txt)
     loves.add(love_txt)
 
@@ -65,8 +65,8 @@ def lvl3():
         
         #deplacer les sprites 
         for entity in all_sprites:
-            screen.blit(entity.surf, (entity.rect.x - camera.x, entity.rect.y - camera.y))
             entity.move()
+            screen.blit(entity.surf, (entity.rect.x - camera.x, entity.rect.y - camera.y))
 
         if (P1.rect.y - camera.y) > HEIGHT:
             P1.into_the_void()
