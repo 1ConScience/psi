@@ -29,10 +29,14 @@ pygame.display.set_caption("psi")
 
 image_droite = pygame.image.load("e.png").convert_alpha()
 image_gauche = pygame.image.load("e_inv.png").convert_alpha()
+image_droite_pink = pygame.image.load("e_pink.png").convert_alpha()
+image_gauche_pink = pygame.image.load("e_inv_pink.png").convert_alpha()
 
 all_sprites = pygame.sprite.Group()
 platforms = pygame.sprite.Group()
 portes = pygame.sprite.Group()
+loves = pygame.sprite.Group()
+murs = pygame.sprite.Group()
  
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -49,6 +53,7 @@ class Player(pygame.sprite.Sprite):
         self.droite = False
 
         self.greened = False
+        self.pinked = False
 
     def controls(self,event):
         if event.type == QUIT:
@@ -101,10 +106,16 @@ class Player(pygame.sprite.Sprite):
                 
         if self.gauche:
             self.acc.x = -ACC
-            self.surf = image_gauche
+            if self.pinked :
+                self.surf = image_gauche_pink
+            else :
+                self.surf = image_gauche
         if self.droite:
             self.acc.x = ACC
-            self.surf = image_droite
+            if self.pinked :
+                self.surf = image_droite_pink
+            else :
+                self.surf = image_droite
                  
         self.acc.x += self.vel.x * FRIC
         self.vel += self.acc
@@ -135,7 +146,18 @@ class Player(pygame.sprite.Sprite):
         
         hits = pygame.sprite.spritecollide(self ,portes, False)
         if hits:
-            self.greened = True    
+            self.greened = True  
+        
+        hits = pygame.sprite.spritecollide(self ,loves, False)
+        if hits:
+            self.pinked = True      
+        
+        hits = pygame.sprite.spritecollide(self ,murs, False)
+        if self.vel.x > 0 and not self.pinked:        
+            if hits:
+                if self.pos.x > hits[0].rect.left:               
+                    self.pos.x = hits[0].rect.left -1  
+                    self.vel.x = 0  
 
     def into_the_void(self):
         self.pos = vec((27, 360))
@@ -160,6 +182,17 @@ class MagicPlatform(pygame.sprite.Sprite):
         super().__init__()
         self.surf = pygame.Surface(size)
         self.surf.fill((43,255,255))
+        self.rect = self.surf.get_rect(center = pos)
+
+    def move(self):
+        pass
+ 
+ 
+class Mur(pygame.sprite.Sprite):
+    def __init__(self,size,pos):
+        super().__init__()
+        self.surf = pygame.Surface(size)
+        self.surf.fill((255, 16, 240))
         self.rect = self.surf.get_rect(center = pos)
 
     def move(self):
