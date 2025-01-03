@@ -7,70 +7,42 @@ def lvl5():
     P1 = Player()
     all_sprites.add(P1)
 
+    spanw_txt = Texte("†",27, 360,(255, 255, 255))
+    all_sprites.add(spanw_txt)
 
-    Phi = PhiBot()
+
+
+    Phi = PhiBot(-11706,1451)
     all_sprites.add(Phi)
 
-
-    sim_txt = Texte("Tu vis dans une simulation Epsilon",0, HEIGHT-50,(255,255,255))
-    all_sprites.add(sim_txt)
-
-
-
     def create_block(x, y):
-        plat = PlatformRandomColor((15, 15),(x, y))
+        plat = PlatformBlacknWhite((20, 100),(x, y))
         all_sprites.add(plat)
         platforms.add(plat)
 
+
+    # Fonction puissance de 2
+    def pouissancededeux(n):
+        somme = 1
+        for count in range(int(n)):
+            somme = somme * 2
+        return somme
+
     def fractal(x,y,profondeur):
-        create_block(x, y)
-        x_droit=x
-        x_gauche=x
 
-        index=0
-        while index < 3:
-            index+=1
-            
-            for i in range(profondeur):
-                x_gauche-=15
-                x_droit+=15
-                y+=i
-                create_block(x_gauche, y)
-                create_block(x_droit, y)
+        for niveau in range(profondeur):
 
-                for i in range(profondeur):
-                    x_gauche-=15
-                    x_droit+=15
-                    y+=i
-                    create_block(x_gauche, y)
-                    create_block(x_droit, y)
-            
-            for i in range(profondeur):
-                x_gauche-=15
-                x_droit+=15
-                y-=i
-                create_block(x_gauche, y)
-                create_block(x_droit, y)
-                
-                for i in range(profondeur):
-                    x_gauche-=15
-                    x_droit+=15
-                    y-=i
-                    create_block(x_gauche, y)
-                    create_block(x_droit, y)
+            nb_nouvelles_branches = pouissancededeux(niveau)      
 
-            
+            for branche in range(nb_nouvelles_branches):
 
- 
-
-
+                create_block(1000+x-25*nb_nouvelles_branches+branche*25, y+100*niveau)
+        
     fractal(0, HEIGHT,10)
 
-    porte = Porte((15*3*10*10*2, HEIGHT))
-    all_sprites.add(porte)
-    portes.add(porte)
+    
 
-    porte = Porte((-15*3*10*10*2, HEIGHT))
+    porte = Porte((-11802,1421))
     all_sprites.add(porte)
     portes.add(porte)
 
@@ -81,18 +53,17 @@ def lvl5():
 
         #quand P1 entre en collision avec platforms
         P1.update()
-
         Phi.update()
+
 
         for event in pygame.event.get():
             P1.controls(event)
 
         P1.joystick()
 
-        Phi.deplacements()
 
         #fond noir
-        screen.fill((0,0,0))
+        screen.fill((100,100,100))
         
 
         #ajust camera
@@ -106,9 +77,6 @@ def lvl5():
 
         if (P1.rect.y - camera.y) > HEIGHT:
             P1.into_the_void()
-
-        if (Phi.rect.y - camera.y) > HEIGHT:
-            Phi.into_the_void()
 
 
         pygame.display.update()

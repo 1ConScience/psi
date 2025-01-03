@@ -7,6 +7,9 @@ def lvl3():
     P1 = Player()
     all_sprites.add(P1)
 
+    spanw_txt = Texte("†",27, 360,(255, 255, 255))
+    all_sprites.add(spanw_txt)
+
     plat = Platform((2000, 20),(0, HEIGHT))
     all_sprites.add(plat)
     platforms.add(plat)

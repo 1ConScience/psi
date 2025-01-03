@@ -12,6 +12,11 @@ def nettoyage():
     pygame.sprite.Group.empty(murs)
 
 
+
+
+lvl2()
+"""
+
 lvl1()
 nettoyage()
 lvl2()
@@ -23,4 +28,4 @@ nettoyage()
 lvl5()
 nettoyage()
 
-
+"""

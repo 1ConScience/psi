@@ -145,9 +145,10 @@ class Bot(Personnage):
 
 
 class PhiBot(Personnage):
-    def __init__(self):
+    def __init__(self,pos_x,pos_y):
         super().__init__()  
         self.surf = image_phi_droite
+        self.pos = vec((pos_x, pos_y))
 
     def deplacements(self):
         status= random.randint(1, 5)
@@ -248,27 +249,44 @@ class Platform(pygame.sprite.Sprite):
         pass
 
 
-class PlatformRandomColor(pygame.sprite.Sprite):
+class PlatformRandomColor(Platform):
     def __init__(self,size,pos):
-        super().__init__()
-        self.surf = pygame.Surface(size)
+        super().__init__(size,pos)
+
         self.surf.fill((random.randint(0, 255),random.randint(0, 255),255))
-        self.rect = self.surf.get_rect(center = pos)
+
+    def move(self):
+        pass    
+
+
+class PlatformBlacknWhite(Platform):
+    def __init__(self,size,pos):
+        super().__init__(size,pos)
+
+        blackorwhite = random.randint(0, 1)
+        if blackorwhite==0 :
+            self.surf.fill((255,255,255))
+        else :
+            self.surf.fill((0,0,0))
 
     def move(self):
         pass    
  
  
-class MagicPlatform(pygame.sprite.Sprite):
+class MagicPlatform(Platform):
     def __init__(self,size,pos):
-        super().__init__()
-        self.surf = pygame.Surface(size)
+        super().__init__(size,pos)
+
         self.surf.fill((43,255,255))
-        self.rect = self.surf.get_rect(center = pos)
 
     def move(self):
         pass
  
+ 
+
+
+
+
  
 class Mur(pygame.sprite.Sprite):
     def __init__(self,size,pos):

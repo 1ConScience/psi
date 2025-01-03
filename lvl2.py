@@ -65,6 +65,9 @@ def lvl2():
     P1 = Player()
     all_sprites.add(P1)
 
+    spanw_txt = Texte("†",27, 360,(255, 255, 255))
+    all_sprites.add(spanw_txt)
+
     PT1 = Platform((20000, 20),(0, -1880))
     all_sprites.add(PT1)
     platforms.add(PT1)
@@ -81,7 +84,7 @@ def lvl2():
 
 
 
-    never_txt = Texte("Quel endroit magnifique...",0, -1950,(43,255,255))
+    never_txt = Texte("Quel endroit étonnant...",0, -1950,(43,255,255))
     all_sprites.add(never_txt)
 
 

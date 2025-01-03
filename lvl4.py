@@ -7,9 +7,12 @@ def lvl4():
     P1 = Player()
     all_sprites.add(P1)
 
+    spanw_txt = Texte("†",27, 360,(255, 255, 255))
+    all_sprites.add(spanw_txt)
 
-    Phi = Bot()
-    all_sprites.add(Phi)
+
+    clone = Bot()
+    all_sprites.add(clone)
 
 
     sim_txt = Texte("Tu vis dans une simulation Epsilon",0, HEIGHT-50,(255,255,255))
@@ -82,14 +85,14 @@ def lvl4():
         #quand P1 entre en collision avec platforms
         P1.update()
 
-        Phi.update()
+        clone.update()
 
         for event in pygame.event.get():
             P1.controls(event)
 
         P1.joystick()
 
-        Phi.deplacements()
+        clone.deplacements()
 
         #fond noir
         screen.fill((0,0,0))
@@ -107,8 +110,8 @@ def lvl4():
         if (P1.rect.y - camera.y) > HEIGHT:
             P1.into_the_void()
 
-        if (Phi.rect.y - camera.y) > HEIGHT:
-            Phi.into_the_void()
+        if (clone.rect.y - camera.y) > HEIGHT:
+            clone.into_the_void()
 
 
         pygame.display.update()
