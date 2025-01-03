@@ -13,7 +13,7 @@ joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_coun
 camera = pygame.math.Vector2((0, 0))
 vec = pygame.math.Vector2 #2 for two dimensional
  
-WIDTH = 1280
+WIDTH = 720
 HEIGHT = 720
 ACC = 0.5
 #FRIC = -0.12
@@ -23,10 +23,8 @@ FPS = 120
 FramePerSec = pygame.time.Clock()
  
 
-infoObject = pygame.display.Info()
-WIDTH = infoObject.current_w
-HEIGHT = infoObject.current_h
-screen = pygame.display.set_mode((WIDTH, HEIGHT),pygame.FULLSCREEN,pygame.DOUBLEBUF)
+
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 
 pygame.display.set_caption("psi")
@@ -197,20 +195,23 @@ id_txt = Texte("Les bonnes idées finissent toujours pas revenir",0, HEIGHT-50,(
 all_sprites.add(id_txt)
 
 
-love_txt = Texte("<",400, 412,(255, 16, 240))
+
+
+love_txt = Texte("<",390, -108,(255, 16, 240))
 all_sprites.add(love_txt)
 loves.add(love_txt)
+
+
+
 
 porte = Porte((800, HEIGHT-40))
 all_sprites.add(porte)
 portes.add(porte)
 
 
-pl = Platform((100, 20),(255,255,255),(400, HEIGHT - 1000))
-all_sprites.add(pl)
-platforms.add(pl)
 
-for i in range(6):
+
+for i in range(5):
     pl = Platform((30*i, 20),(255,255,255),(490-(15*i), HEIGHT - i*200))
     all_sprites.add(pl)
     platforms.add(pl)
@@ -286,8 +287,8 @@ while True:
      
     #deplacer les sprites 
     for entity in all_sprites:
-        entity.move(gauche,droite)
         screen.blit(entity.surf, (entity.rect.x - camera.x, entity.rect.y - camera.y))
+        entity.move(gauche,droite)
 
     if (P1.rect.y - camera.y) > HEIGHT:
         P1.into_the_void()
