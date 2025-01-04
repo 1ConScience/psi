@@ -39,13 +39,19 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 pygame.display.set_caption("psi")
 
+
 image_droite = pygame.image.load("e.png").convert_alpha()
 image_gauche = pygame.image.load("e_inv.png").convert_alpha()
+image_droite_black = pygame.image.load("e_black.png").convert_alpha()
+image_gauche_black = pygame.image.load("e_inv_black.png").convert_alpha()
 image_droite_pink = pygame.image.load("e_pink.png").convert_alpha()
 image_gauche_pink = pygame.image.load("e_inv_pink.png").convert_alpha()
 
 image_phi_droite = pygame.image.load("phi.png").convert_alpha()
 image_phi_gauche = pygame.image.load("phi_inv.png").convert_alpha()
+
+
+ana = pygame.image.load("ana.png").convert_alpha()
 
 all_sprites = pygame.sprite.Group()
 platforms = pygame.sprite.Group()

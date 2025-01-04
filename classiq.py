@@ -17,6 +17,7 @@ class Personnage(pygame.sprite.Sprite):
 
         self.greened = False
         self.pinked = False
+        self.blacked = False
  
     def move(self):
         self.acc = vec(0,0.5)
@@ -45,6 +46,10 @@ class Personnage(pygame.sprite.Sprite):
                 self.vel.y = -3
  
     def update(self):
+
+        if self.blacked:
+            self.surf = image_droite_black
+
         hits = pygame.sprite.spritecollide(self ,platforms, False)
         if self.vel.y > 0:        
             if hits:
@@ -59,7 +64,8 @@ class Personnage(pygame.sprite.Sprite):
         
         hits = pygame.sprite.spritecollide(self ,loves, False)
         if hits:
-            self.pinked = True      
+            self.pinked = True 
+            self.surf = image_gauche_pink     
         
         hits = pygame.sprite.spritecollide(self ,murs, False)
         if self.vel.x > 0 and not self.pinked:        
@@ -139,6 +145,9 @@ class Player(Personnage):
             pygame.quit()
             sys.exit()
         if event.type == pygame.KEYDOWN:  
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
             if event.key == pygame.K_q or event.key == pygame.K_LEFT:
                 self.gauche = True
             if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
@@ -172,12 +181,18 @@ class Player(Personnage):
             if self.pinked :
                 self.surf = image_gauche_pink
             else :
-                self.surf = image_gauche
+                if self.blacked :
+                    self.surf = image_gauche_black
+                else :
+                    self.surf = image_gauche
         if self.droite:
             if self.pinked :
                 self.surf = image_droite_pink
             else :
-                self.surf = image_droite    
+                if self.blacked :
+                    self.surf = image_droite_black
+                else :
+                    self.surf = image_droite
 
     def joystick(self):
         if pygame.joystick.get_count()>0:
@@ -214,6 +229,18 @@ class PlatformRandomColor(Platform):
 
     def move(self):
         pass    
+
+
+
+
+class PlatformBlack(Platform):
+    def __init__(self,size,pos):
+        super().__init__(size,pos)
+
+        self.surf.fill((0,0,0))
+
+    def move(self):
+        pass        
 
 
 class PlatformBlacknWhite(Platform):
@@ -254,6 +281,7 @@ class Plafond(pygame.sprite.Sprite):
 
     def move(self):
         pass
+ 
 
 
 
@@ -299,3 +327,78 @@ class Tableau(pygame.sprite.Sprite):
         pass
 
 
+
+
+
+
+
+class Miroir(pygame.sprite.Sprite):
+    def __init__(self,pos):
+        super().__init__()
+
+
+        self.width_=300
+        self.height_=150
+
+
+        self.surf = pygame.Surface((self.width_, self.height_))
+        self.surf.fill((255, 255, 255))
+
+
+
+
+        self.player_img_gauche = pygame.transform.scale(image_gauche, (30/3, 38/3))
+        self.player_img_droite = pygame.transform.scale(image_droite, (30/3, 38/3))
+
+
+        self.player_img = self.player_img_gauche
+
+        self.rect = self.surf.get_rect(center = pos)
+
+
+    def move(self):
+        pass
+
+    def update(self,x,y,gauche,droite):
+
+ 
+
+
+
+        interior = pygame.Surface((self.width_-10, self.height_-10))
+        interior.fill((0, 0, 0))
+        self.surf.blit(interior,(5,5))
+
+
+        w_ana_reduced = (ana.get_width())/7
+        h_ana_reduced = (ana.get_height())/7
+        ana_reduce = pygame.transform.scale(ana, (w_ana_reduced, h_ana_reduced))
+
+
+        self.surf.blit(ana_reduce,((self.width_-10)/2-w_ana_reduced/2+5,(self.height_-10)/2-h_ana_reduced/2+5))
+
+        platform = pygame.Surface((self.width_-10,2))
+        platform.fill((255, 255, 255))
+        self.surf.blit(platform,(5,120))
+
+
+        #x   -1211  >  289
+        #y  321.75  >  105
+
+        ratio_x = 290 / 1147
+        ratio_y = 105 / 321.75
+
+
+        new_x = x * ratio_x
+        new_x = new_x + 290*2
+        new_y = y * ratio_y
+
+
+        
+
+        if gauche:
+            self.player_img = self.player_img_gauche
+        if droite:
+            self.player_img = self.player_img_droite
+
+        self.surf.blit(self.player_img,(new_x,new_y))

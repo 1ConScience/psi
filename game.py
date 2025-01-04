@@ -4,13 +4,15 @@ from lvl3 import *
 from lvl4 import *
 from lvl5 import *
 from lvl6 import *
+from lvl7 import *
 
 
 
 
-lvl6()
+
+lvl7()
+
 """
-
 lvl1()
 nettoyage()
 lvl3()
@@ -21,5 +23,8 @@ lvl5()
 nettoyage()
 lvl2()
 nettoyage()
-
+lvl6()
+nettoyage()
+lvl7()
+nettoyage()
 """
