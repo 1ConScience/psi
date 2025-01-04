@@ -49,6 +49,10 @@ class Personnage(pygame.sprite.Sprite):
 
         if self.blacked:
             self.surf = image_droite_black
+            if self.gauche:
+                self.surf = image_gauche_black
+            if self.droite:
+                self.surf = image_droite_black
 
         hits = pygame.sprite.spritecollide(self ,platforms, False)
         if self.vel.y > 0:        
@@ -119,9 +123,11 @@ class PhiBot(Personnage):
             case 1:
                 self.droite = True 
                 self.gauche = False 
+                self.surf = image_phi_droite 
             case 2:
                 self.gauche = True
                 self.droite = False
+                self.surf = image_phi_gauche
             case 3:
                 self.droite = False
                 self.gauche = False
@@ -129,11 +135,6 @@ class PhiBot(Personnage):
                 self.jump()
             case 5:
                 self.cancel_jump()
-
-        if self.gauche:
-            self.surf = image_phi_gauche
-        if self.droite:
-            self.surf = image_phi_droite 
 
 
 class Player(Personnage):
@@ -177,6 +178,10 @@ class Player(Personnage):
             if  event.button == 0:
                 self.cancel_jump()
 
+
+
+
+
         if self.gauche:
             if self.pinked :
                 self.surf = image_gauche_pink
@@ -193,6 +198,7 @@ class Player(Personnage):
                     self.surf = image_droite_black
                 else :
                     self.surf = image_droite
+
 
     def joystick(self):
         if pygame.joystick.get_count()>0:
@@ -323,6 +329,17 @@ class Tableau(pygame.sprite.Sprite):
         super().__init__()
         self.surf = image
         self.rect = self.surf.get_rect(center = (x, y))
+    def move(self):
+        pass
+
+
+
+
+class Background(pygame.sprite.Sprite):
+    def __init__(self,image):
+        super().__init__()
+        self.surf = image
+        self.rect = self.surf.get_rect(center = (0, 0))
     def move(self):
         pass
 

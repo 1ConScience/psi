@@ -13,7 +13,7 @@ def lvl6():
     spanw_txt = Texte("†",27, 360,(255, 255, 255))
     all_sprites.add(spanw_txt)
 
-    spanw_txt = Texte("Attends je n'ai pas fini de dessiner ce monde",100, 500,(0, 0, 0))
+    spanw_txt = Texte("Attends, je n'ai pas fini de dessiner ce monde",100, 500,(0, 0, 0))
     all_sprites.add(spanw_txt)
 
 

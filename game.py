@@ -5,12 +5,14 @@ from lvl4 import *
 from lvl5 import *
 from lvl6 import *
 from lvl7 import *
-
-
-
+from lvl8 import *
 
 
 lvl7()
+nettoyage()
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+lvl8()
+nettoyage()
 
 """
 lvl1()
@@ -27,4 +29,8 @@ lvl6()
 nettoyage()
 lvl7()
 nettoyage()
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+lvl8()
+nettoyage()
+
 """

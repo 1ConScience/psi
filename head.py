@@ -5,7 +5,8 @@ import random
 import glob
 from pathlib import Path
 import os
- 
+#screenshot
+from mss import mss
 
 
 
