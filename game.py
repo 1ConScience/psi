@@ -3,29 +3,23 @@ from lvl2 import *
 from lvl3 import *
 from lvl4 import *
 from lvl5 import *
-
-def nettoyage():
-    pygame.sprite.Group.empty(all_sprites)
-    pygame.sprite.Group.empty(platforms)
-    pygame.sprite.Group.empty(portes)
-    pygame.sprite.Group.empty(loves)
-    pygame.sprite.Group.empty(murs)
+from lvl6 import *
 
 
 
 
-lvl2()
+lvl6()
 """
 
 lvl1()
-nettoyage()
-lvl2()
 nettoyage()
 lvl3()
 nettoyage()
 lvl4()
 nettoyage()
 lvl5()
+nettoyage()
+lvl2()
 nettoyage()
 
 """

@@ -1,56 +1,12 @@
-import pygame
-from pygame.locals import *
-import sys
-import random
-import glob
-from pathlib import Path
-import os
- 
-pygame.init()
+from head import *
 
-joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
-
-camera = pygame.math.Vector2((0, 0))
-vec = pygame.math.Vector2 #2 for two dimensional
- 
-WIDTH = 800
-HEIGHT = 600
-ACC = 0.5
-FRIC = -0.09#-0.12
-FPS = 60
-
-deadzone = 0.3
- 
-FramePerSec = pygame.time.Clock()
- 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
-pygame.display.set_caption("psi")
-
-image_droite = pygame.image.load("e.png").convert_alpha()
-image_gauche = pygame.image.load("e_inv.png").convert_alpha()
-image_droite_pink = pygame.image.load("e_pink.png").convert_alpha()
-image_gauche_pink = pygame.image.load("e_inv_pink.png").convert_alpha()
-
-image_phi_droite = pygame.image.load("phi.png").convert_alpha()
-image_phi_gauche = pygame.image.load("phi_inv.png").convert_alpha()
-
-all_sprites = pygame.sprite.Group()
-platforms = pygame.sprite.Group()
-portes = pygame.sprite.Group()
-loves = pygame.sprite.Group()
-murs = pygame.sprite.Group()
-
-
-
-
- 
 class Personnage(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__() 
         self.surf = image_droite
         self.rect = self.surf.get_rect()
    
+        self.spawn = vec((27, 360))
         self.pos = vec((27, 360))
         self.vel = vec(0,0)
         self.acc = vec(0,0)
@@ -113,7 +69,7 @@ class Personnage(pygame.sprite.Sprite):
                     self.vel.x = 0  
 
     def into_the_void(self):
-        self.pos = vec((27, 360))
+        self.pos = self.spawn
         self.vel = vec(0,0)
         self.acc = vec(0,0)
         self.jumping = False
@@ -149,6 +105,7 @@ class PhiBot(Personnage):
         super().__init__()  
         self.surf = image_phi_droite
         self.pos = vec((pos_x, pos_y))
+        self.spawn = vec((pos_x, pos_y))
 
     def deplacements(self):
         status= random.randint(1, 5)
@@ -284,6 +241,19 @@ class MagicPlatform(Platform):
  
  
 
+
+ 
+
+ 
+class Plafond(pygame.sprite.Sprite):
+    def __init__(self,size,pos):
+        super().__init__()
+        self.surf = pygame.Surface(size)
+        self.surf.fill((255, 255, 255))
+        self.rect = self.surf.get_rect(center = pos)
+
+    def move(self):
+        pass
 
 
 

@@ -39,7 +39,7 @@ def lvl2():
             # check if the image ends with png
             if (img.endswith(".jpg")):
                 image = pygame.image.load(img).convert()
-                image = pygame.transform.scale(image, (WIDTH/10, HEIGHT/10)) 
+                image = pygame.transform.scale(image, (1280/10, 720/10)) 
                 liste_images.append(image)
 
                 nb_photos +=1
@@ -54,7 +54,7 @@ def lvl2():
 
 
     for index, image in enumerate(liste_images):
-        tableau = Tableau(image,WIDTH+index*300, -1950)
+        tableau = Tableau(image,2000+index*300, 650 - 200*26-40-100)
         all_sprites.add(tableau)
 
 
@@ -65,26 +65,29 @@ def lvl2():
     P1 = Player()
     all_sprites.add(P1)
 
+    phi = PhiBot(4500,650 - 200*26-40-100)
+    all_sprites.add(phi)
+
     spanw_txt = Texte("†",27, 360,(255, 255, 255))
     all_sprites.add(spanw_txt)
 
-    PT1 = Platform((20000, 20),(0, -1880))
+    PT1 = Platform((20000, 20),(0, 600 - 200*26))
     all_sprites.add(PT1)
     platforms.add(PT1)
 
-    porte = Porte(((WIDTH/30)*26, HEIGHT - 200*27))
+    porte = Porte((5500, 600 - 200*26-40))
     all_sprites.add(porte)
     portes.add(porte)
 
 
     for i in range(27):
-        PT = Platform((200, 15),((WIDTH/30)*i, HEIGHT - 200*i))
+        PT = Platform((200, 15),((WIDTH/30)*i, 600 - 200*i))
         all_sprites.add(PT)
         platforms.add(PT)
 
 
 
-    never_txt = Texte("Quel endroit étonnant...",0, -1950,(43,255,255))
+    never_txt = Texte("Quel endroit étonnant...",(800/30)*26+500,  650 - 200*26-40-100,(43,255,255))
     all_sprites.add(never_txt)
 
 
@@ -93,11 +96,14 @@ def lvl2():
 
         #quand P1 entre en collision avec platforms
         P1.update()
+        phi.update()
 
         for event in pygame.event.get():
             P1.controls(event)
 
         P1.joystick()
+
+        phi.deplacements()
 
         #fond noir
         screen.fill((0,0,0))
@@ -113,6 +119,7 @@ def lvl2():
 
         if (P1.rect.y - camera.y) > HEIGHT:
             P1.into_the_void()
+
 
 
         pygame.display.update()
