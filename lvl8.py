@@ -19,6 +19,10 @@ def lvl8():
     all_spritesHorsCadre.add(plat_virtuelle)
     platforms.add(plat_virtuelle)
 
+    plat_virtuelle_largeur_screen = MagicPlatform((10000, 20),(P1.pos.x, infoObject.current_h+10))
+    all_spritesHorsCadre.add(plat_virtuelle_largeur_screen)
+    platforms.add(plat_virtuelle_largeur_screen)
+
     for i in range(10):
         plat_ = Platform((20, 20),(P1.pos.x+10*i, P1.pos.y+8-10*i))
         all_spritesHorsCadre.add(plat_)
