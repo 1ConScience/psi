@@ -53,7 +53,7 @@ def lvl7():
 
 
 
-
+    '''
     for i in range(10):
         plat_ = Platform((20, 20),(-2700+20*i, 320-10*i))
         all_sprites.add(plat_)
@@ -72,9 +72,12 @@ def lvl7():
         plat_ = Platform((20, 20),(-2700-20*i+20*7, 320-10*i-10*21))
         all_sprites.add(plat_)
         platforms.add(plat_)
+    '''
 
 
-
+    plat_virtuelle = MagicPlatform((200, 20),(-2602.93827160495+8, 321.75+8))
+    all_sprites.add(plat_virtuelle)
+    platforms.add(plat_virtuelle)
 
 
     while not P1.greened:
