@@ -9,15 +9,15 @@ def lvl1():
     all_sprites.add(spanw_txt)
 
 
-    PT0 = MagicPlatform((100, 20),(-100, HEIGHT+200))
+    PT0 = MagicPlatform((100, 20),(-100, 600+200))
     all_sprites.add(PT0)
     platforms.add(PT0)
 
-    drug_txt = Texte("C'est une drogue",-150, HEIGHT+300,(255, 255, 255))
+    drug_txt = Texte("C'est une drogue",-150, 600+300,(255, 255, 255))
     all_sprites.add(drug_txt)
 
     for i in range(272):
-        PT = Platform(((WIDTH/30), 15),((WIDTH/30)*i, HEIGHT - 5*i))
+        PT = Platform(((800/30), 15),((800/30)*i, 600 - 5*i))
         all_sprites.add(PT)
         platforms.add(PT)
 
@@ -25,13 +25,13 @@ def lvl1():
     def tree(x,y,profondeur):
         profondeur+=1
         if profondeur < 7 :
-            plat = Platform(((WIDTH/30), 15),(x, y))
+            plat = Platform(((800/30), 15),(x, y))
             all_sprites.add(plat)
             platforms.add(plat)
             tree(x-50, y+200,profondeur)
             tree(x+50, y+200,profondeur)
 
-    tree(-200, HEIGHT+400,0)
+    tree(-200, 600+400,0)
 
     PT01 = Platform((100, 20),(-200, 2200))
     all_sprites.add(PT01)
@@ -69,15 +69,15 @@ def lvl1():
         screen.fill((0,0,0))
 
         #ajust camera
-        camera.x = P1.pos.x - WIDTH / 2
-        camera.y = P1.pos.y - HEIGHT / 2
+        camera.x = P1.pos.x - 800 / 2
+        camera.y = P1.pos.y - 600 / 2
         
         #deplacer les sprites 
         for entity in all_sprites:
             entity.move()
             screen.blit(entity.surf, (entity.rect.x - camera.x, entity.rect.y - camera.y))
 
-        if (P1.rect.y - camera.y) > HEIGHT:
+        if (P1.rect.y - camera.y) > 600:
             P1.into_the_void()
 
         

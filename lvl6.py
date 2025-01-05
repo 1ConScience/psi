@@ -34,7 +34,7 @@ def lvl6():
 
 
     index_x=27
-    index_y=HEIGHT
+    index_y=600
 
     partir_a_gauche=False
     generation_done=False
@@ -149,15 +149,15 @@ def lvl6():
         
 
         #ajust camera
-        camera.x = P1.pos.x - WIDTH / 2
-        camera.y = P1.pos.y - HEIGHT / 2
+        camera.x = P1.pos.x - 800 / 2
+        camera.y = P1.pos.y - 600 / 2
         
         #deplacer les sprites 
         for entity in all_sprites:
             entity.move()
             screen.blit(entity.surf, (entity.rect.x - camera.x, entity.rect.y - camera.y))
 
-        if (P1.rect.y - camera.y) > HEIGHT:
+        if (P1.rect.y - camera.y) > 600:
             P1.into_the_void()
 
 

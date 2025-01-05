@@ -4,7 +4,7 @@ from classiq import *
 def lvl7():
 
 
-    miroir = Miroir((27-250-20*27-1000+10, HEIGHT-10*27-150))
+    miroir = Miroir((27-250-20*27-1000+10, 600-10*27-150))
     all_sprites.add(miroir)
 
 
@@ -20,7 +20,7 @@ def lvl7():
 
 
 
-    plat_ = Platform((500, 20),(27, HEIGHT))
+    plat_ = Platform((500, 20),(27, 600))
     all_sprites.add(plat_)
     platforms.add(plat_)
 
@@ -29,7 +29,7 @@ def lvl7():
 
     
     for i in range(27):
-        plat_ = Platform((20, 20),(27-250-20*i, HEIGHT-10*i))
+        plat_ = Platform((20, 20),(27-250-20*i, 600-10*i))
         all_sprites.add(plat_)
         platforms.add(plat_)
 
@@ -39,7 +39,7 @@ def lvl7():
 
 
 
-    plat_ = Platform((2000, 20),(27-250-20*27-1000+10, HEIGHT-10*27))
+    plat_ = Platform((2000, 20),(27-250-20*27-1000+10, 600-10*27))
     all_sprites.add(plat_)
     platforms.add(plat_)
 
@@ -47,7 +47,7 @@ def lvl7():
 
 
 
-    spanw_txt = Texte("OK, j'arrête de filmer",27-250-20*27-2100+10, HEIGHT-10*27-50,(255, 255, 255))
+    spanw_txt = Texte("OK, j'arrête de filmer",27-250-20*27-2100+10, 600-10*27-50,(255, 255, 255))
     all_sprites.add(spanw_txt)
 
 
@@ -75,7 +75,7 @@ def lvl7():
     '''
 
 
-    plat_virtuelle = MagicPlatform((200, 20),(-2602.93827160495+8, 321.75+8))
+    plat_virtuelle = MagicPlatform((400, 20),(-2602.93827160495+8, 321.75+8))
     all_sprites.add(plat_virtuelle)
     platforms.add(plat_virtuelle)
 
@@ -110,15 +110,15 @@ def lvl7():
         
 
         #ajust camera
-        camera.x = P1.pos.x - WIDTH / 2
-        camera.y = P1.pos.y - HEIGHT / 2
+        camera.x = P1.pos.x - 800 / 2
+        camera.y = P1.pos.y - 600 / 2
         
         #deplacer les sprites 
         for entity in all_sprites:
             entity.move()
             screen.blit(entity.surf, (entity.rect.x - camera.x, entity.rect.y - camera.y))
 
-        if (P1.rect.y - camera.y) > HEIGHT:
+        if (P1.rect.y - camera.y) > 600:
             P1.into_the_void()
 
 

@@ -81,13 +81,13 @@ def lvl2():
 
 
     for i in range(27):
-        PT = Platform((200, 15),((WIDTH/30)*i, 600 - 200*i))
+        PT = Platform((200, 15),((800/30)*i, 600 - 200*i))
         all_sprites.add(PT)
         platforms.add(PT)
 
 
 
-    never_txt = Texte("Quel endroit étonnant...",(800/30)*26+500,  650 - 200*26-40-100,(43,255,255))
+    never_txt = Texte("Tu préfères laquelle ?",(800/30)*26+500,  650 - 200*26-40-100,(255,255,255))
     all_sprites.add(never_txt)
 
 
@@ -109,15 +109,15 @@ def lvl2():
         screen.fill((0,0,0))
 
         #ajust camera
-        camera.x = P1.pos.x - WIDTH / 2
-        camera.y = P1.pos.y - HEIGHT / 2
+        camera.x = P1.pos.x - 800 / 2
+        camera.y = P1.pos.y - 600 / 2
         
         #deplacer les sprites 
         for entity in all_sprites:
             entity.move()
             screen.blit(entity.surf, (entity.rect.x - camera.x, entity.rect.y - camera.y))
 
-        if (P1.rect.y - camera.y) > HEIGHT:
+        if (P1.rect.y - camera.y) > 600:
             P1.into_the_void()
 
 

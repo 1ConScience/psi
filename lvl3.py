@@ -10,18 +10,18 @@ def lvl3():
     spanw_txt = Texte("†",27, 360,(255, 255, 255))
     all_sprites.add(spanw_txt)
 
-    plat = Platform((2000, 20),(0, HEIGHT))
+    plat = Platform((2000, 20),(0, 600))
     all_sprites.add(plat)
     platforms.add(plat)
 
 
 
-    mur_droit = Mur((20, 1500),(500, HEIGHT-760))
+    mur_droit = Mur((20, 1500),(500, 600-760))
     all_sprites.add(mur_droit)
     murs.add(mur_droit)
 
 
-    id_txt = Texte("Les bonnes idées finissent toujours pas revenir",0, HEIGHT-50,(255,255,255))
+    id_txt = Texte("Les bonnes idées finissent toujours pas revenir",0, 600-50,(255,255,255))
     all_sprites.add(id_txt)
 
 
@@ -34,7 +34,7 @@ def lvl3():
 
 
 
-    porte = Porte((800, HEIGHT-40))
+    porte = Porte((800, 600-40))
     all_sprites.add(porte)
     portes.add(porte)
 
@@ -42,7 +42,7 @@ def lvl3():
 
 
     for i in range(5):
-        pl = Platform((30*i, 20),(490-(15*i), HEIGHT - i*200))
+        pl = Platform((30*i, 20),(490-(15*i), 600 - i*200))
         all_sprites.add(pl)
         platforms.add(pl)
 
@@ -63,15 +63,15 @@ def lvl3():
         screen.fill((0,0,0))
 
         #ajust camera
-        camera.x = P1.pos.x - WIDTH / 2
-        camera.y = P1.pos.y - HEIGHT / 2
+        camera.x = P1.pos.x - 800 / 2
+        camera.y = P1.pos.y - 600 / 2
         
         #deplacer les sprites 
         for entity in all_sprites:
             entity.move()
             screen.blit(entity.surf, (entity.rect.x - camera.x, entity.rect.y - camera.y))
 
-        if (P1.rect.y - camera.y) > HEIGHT:
+        if (P1.rect.y - camera.y) > 600:
             P1.into_the_void()
 
 

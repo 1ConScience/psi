@@ -38,7 +38,7 @@ def lvl5():
 
                 create_block(1000+x-25*nb_nouvelles_branches+branche*25, y+100*niveau)
         
-    fractal(0, HEIGHT,10)
+    fractal(0, 600,10)
 
     
 
@@ -67,15 +67,15 @@ def lvl5():
         
 
         #ajust camera
-        camera.x = P1.pos.x - WIDTH / 2
-        camera.y = P1.pos.y - HEIGHT / 2
+        camera.x = P1.pos.x - 800 / 2
+        camera.y = P1.pos.y - 600 / 2
         
         #deplacer les sprites 
         for entity in all_sprites:
             entity.move()
             screen.blit(entity.surf, (entity.rect.x - camera.x, entity.rect.y - camera.y))
 
-        if (P1.rect.y - camera.y) > HEIGHT:
+        if (P1.rect.y - camera.y) > 600:
             P1.into_the_void()
 
 

@@ -47,6 +47,9 @@ class Personnage(pygame.sprite.Sprite):
  
     def update(self):
 
+        #DEBUG TOOL 
+        print(FramePerSec.get_fps())
+
         if self.blacked:
             self.surf = image_droite_black
             if self.gauche:
@@ -387,16 +390,16 @@ class Miroir(pygame.sprite.Sprite):
         self.surf.blit(interior,(5,5))
 
 
-        w_ana_reduced = (ana.get_width())/7
-        h_ana_reduced = (ana.get_height())/7
+        w_ana_reduced = (ana.get_width())/20
+        h_ana_reduced = (ana.get_height())/20
         ana_reduce = pygame.transform.scale(ana, (w_ana_reduced, h_ana_reduced))
 
 
-        self.surf.blit(ana_reduce,((self.width_-10)/2-w_ana_reduced/2+5,(self.height_-10)/2-h_ana_reduced/2+5))
+        self.surf.blit(ana_reduce,((self.width_-10)/2-w_ana_reduced/2+5,(self.height_-10)/2-h_ana_reduced/2+5-40))
 
         platform = pygame.Surface((self.width_-10,2))
         platform.fill((255, 255, 255))
-        self.surf.blit(platform,(5,120))
+        self.surf.blit(platform,(5,74))
 
 
         #x   -1211  >  289
@@ -418,4 +421,4 @@ class Miroir(pygame.sprite.Sprite):
         if droite:
             self.player_img = self.player_img_droite
 
-        self.surf.blit(self.player_img,(new_x,new_y))
+        self.surf.blit(self.player_img,(new_x,new_y-46))
