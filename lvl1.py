@@ -1,23 +1,19 @@
 from classiq import *
 
-def lvl1():
 
-    P1 = Player()
-    all_sprites.add(P1)
-
-    spanw_txt = Texte("†",27, 360,(255, 255, 255))
+def gen_structure_lvl(offset_x,offset_y):
+    spanw_txt = Texte("†",27+offset_x, 360+offset_y,(255, 255, 255))
     all_sprites.add(spanw_txt)
 
 
-    PT0 = MagicPlatform((100, 20),(-100, 600+200))
+    PT0 = MagicPlatform((100, 20),(-100+offset_x, 600+200+offset_y))
     all_sprites.add(PT0)
     platforms.add(PT0)
 
-    drug_txt = Texte("C'est une drogue",-150, 600+300,(255, 255, 255))
-    all_sprites.add(drug_txt)
+
 
     for i in range(272):
-        PT = Platform(((800/30), 15),((800/30)*i, 600 - 5*i))
+        PT = Platform(((800/30), 15),((800/30)*i+offset_x, 600 - 5*i+offset_y))
         all_sprites.add(PT)
         platforms.add(PT)
 
@@ -31,11 +27,27 @@ def lvl1():
             tree(x-50, y+200,profondeur)
             tree(x+50, y+200,profondeur)
 
-    tree(-200, 600+400,0)
+    tree(-200+offset_x, 600+400+offset_y,0)
 
-    PT01 = Platform((100, 20),(-200, 2200))
+    PT01 = Platform((100, 20),(-200+offset_x, 2200+offset_y))
     all_sprites.add(PT01)
     platforms.add(PT01)
+
+
+
+
+
+def lvl1():
+
+    P1 = Player()
+    all_sprites.add(P1)
+
+
+
+    gen_structure_lvl(0,0)
+
+    drug_txt = Texte("C'est une drogue",-150, 600+300,(255, 255, 255))
+    all_sprites.add(drug_txt)
 
     tout_en_bas_txt = Texte("?",-200, 2100,(255, 255, 255))
     all_sprites.add(tout_en_bas_txt)
@@ -45,8 +57,6 @@ def lvl1():
 
     fin_escalier_droite_txt = Texte("Je te sens perplexe Epsilon",7300, -800,(255, 255, 255))
     all_sprites.add(fin_escalier_droite_txt)
-
-
 
     check_haut_escalier = False
     check_bas_derniere_platform = False

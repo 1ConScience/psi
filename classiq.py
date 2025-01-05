@@ -48,7 +48,7 @@ class Personnage(pygame.sprite.Sprite):
     def update(self):
 
         #DEBUG TOOL 
-        print(FramePerSec.get_fps())
+        #print(FramePerSec.get_fps())
 
         if self.blacked:
             self.surf = image_droite_black
@@ -317,6 +317,17 @@ class Porte(pygame.sprite.Sprite):
         pass    
 
 
+class PorteRouge(pygame.sprite.Sprite):
+    def __init__(self,pos):
+        super().__init__()
+        self.surf = pygame.Surface((16, 60))
+        self.surf.fill((255,0,0))
+        self.rect = self.surf.get_rect(center = pos)
+
+    def move(self):
+        pass    
+
+
 class Texte(pygame.sprite.Sprite):
     def __init__(self,txt,x,y,color):
         super().__init__()
@@ -422,3 +433,179 @@ class Miroir(pygame.sprite.Sprite):
             self.player_img = self.player_img_droite
 
         self.surf.blit(self.player_img,(new_x,new_y-46))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+class GreenPlayer(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__() 
+        self.surf = image_droite_green
+        self.rect = self.surf.get_rect()
+   
+        self.pos = vec((27, 360))
+        self.vel = vec(0,0)
+        self.acc = vec(0,0)
+        self.jumping = False
+
+        self.gauche = False
+        self.droite = False
+
+        self.reded = False
+ 
+    def move(self):
+        self.acc = vec(0,0.5)
+                
+        if self.gauche:
+            self.acc.x = -ACC
+        if self.droite:
+            self.acc.x = ACC
+        if self.jumping:
+            self.acc.y = -ACC
+                 
+        self.acc.x += self.vel.x * FRIC
+
+        self.acc.y += self.vel.y * FRIC
+
+
+
+        self.vel += self.acc
+        self.pos += self.vel + 0.5 * self.acc
+                
+
+
+
+
+
+
+        self.rect.midbottom = self.pos
+ 
+    def jump(self): 
+        self.jumping = True
+ 
+    def cancel_jump(self):
+        self.jumping = False
+ 
+    def update(self):
+        hits = pygame.sprite.spritecollide(self ,platforms, False)
+        if self.vel.y > 0:        
+            if hits:
+                if self.pos.y < hits[0].rect.bottom:               
+                    self.pos.y = hits[0].rect.top +1
+                    self.vel.y = 0
+                    self.jumping = False
+        
+        hits = pygame.sprite.spritecollide(self ,portesRouge, False)
+        if hits:
+            self.reded = True  
+
+    def controls(self,event):
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.KEYDOWN:  
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
+            if event.key == pygame.K_q or event.key == pygame.K_LEFT:
+                self.gauche = True
+            if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                self.droite = True  
+            if event.key == pygame.K_SPACE or event.key == pygame.K_z or event.key == pygame.K_UP:
+                self.jump()
+        if event.type == pygame.KEYUP:   
+            if event.key == pygame.K_q or event.key == pygame.K_LEFT:
+                self.gauche = False
+            if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                self.droite = False 
+            if event.key == pygame.K_SPACE or event.key == pygame.K_z or event.key == pygame.K_UP:
+                self.cancel_jump()
+
+        if event.type == pygame.JOYBUTTONDOWN:      
+            if  event.button == 4:
+                self.gauche = True
+            if  event.button == 5:
+                self.droite = True  
+            if  event.button == 0:
+                self.jump()
+        if event.type == pygame.JOYBUTTONUP:      
+            if  event.button == 4:
+                self.gauche = False
+            if  event.button == 5:
+                self.droite = False 
+            if  event.button == 0:
+                self.cancel_jump()
+
+        if self.gauche:
+            self.surf = image_gauche_green
+        if self.droite:
+            self.surf = image_droite_green
+
+    def joystick(self):
+        if pygame.joystick.get_count()>0:
+            axis_pos = joysticks[0].get_axis(0)
+
+            if axis_pos < -1 * deadzone:
+                self.gauche = True
+            elif axis_pos > deadzone:
+                self.droite = True  
+            else:
+                self.gauche = False
+                self.droite = False        

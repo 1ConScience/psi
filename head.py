@@ -7,7 +7,8 @@ from pathlib import Path
 import os
 #screenshot
 from mss import mss
-
+#change wallpaper
+import ctypes
 
 
 def nettoyage():
@@ -19,6 +20,7 @@ def nettoyage():
     pygame.sprite.Group.empty(murs)
 
     pygame.sprite.Group.empty(all_spritesHorsCadre)
+    pygame.sprite.Group.empty(portesRouge)
 
 
 pygame.init()
@@ -49,6 +51,8 @@ image_droite_black = pygame.image.load("assets/e_black.png").convert_alpha()
 image_gauche_black = pygame.image.load("assets/e_inv_black.png").convert_alpha()
 image_droite_pink = pygame.image.load("assets/e_pink.png").convert_alpha()
 image_gauche_pink = pygame.image.load("assets/e_inv_pink.png").convert_alpha()
+image_droite_green = pygame.image.load("assets/e_green.png").convert_alpha()
+image_gauche_green = pygame.image.load("assets/e_inv_green.png").convert_alpha()
 
 image_phi_droite = pygame.image.load("assets/phi.png").convert_alpha()
 image_phi_gauche = pygame.image.load("assets/phi_inv.png").convert_alpha()
@@ -66,4 +70,5 @@ murs = pygame.sprite.Group()
 
 
 all_spritesHorsCadre = pygame.sprite.Group()
+portesRouge = pygame.sprite.Group()
 
