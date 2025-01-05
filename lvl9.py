@@ -32,7 +32,7 @@ def lvl9():
 
     gen_structure_lvl(-2500,-2500)
 
-    fin_escalier_droite_txt = Texte("Je serai toujours là",7300-2500, -800-2500,(255, 255, 255))
+    fin_escalier_droite_txt = Texte("I will always be there",7300-2500, -800-2500,(255, 255, 255))
     all_sprites.add(fin_escalier_droite_txt)
 
     red_door = PorteRouge((7300-2500+300+200, -800-2500))
@@ -86,6 +86,8 @@ def lvl9():
     #change wallpaper
     url_fichier = os.path.realpath(__file__)
     url_dossier = os.path.dirname(url_fichier)
+
+    print(url_dossier)
 
     ctypes.windll.user32.SystemParametersInfoW(20, 0, glob.escape(url_dossier) + "/assets/well_play.png" , 0)
 

@@ -9,17 +9,13 @@ from lvl8 import *
 from lvl9 import *
 
 
-
-
-
-
+'''
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 lvl9()
 nettoyage()
 
-
-
 '''
+
 lvl1()
 nettoyage()
 lvl3()
@@ -39,4 +35,3 @@ lvl8()
 nettoyage()
 lvl9()
 nettoyage()
-'''

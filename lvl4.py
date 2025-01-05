@@ -15,7 +15,7 @@ def lvl4():
     all_sprites.add(clone)
 
 
-    sim_txt = Texte("Tu vis dans une simulation Epsilon",0, 600-50,(255,255,255))
+    sim_txt = Texte("You live in a simulation Epsilon",0, 600-50,(255,255,255))
     all_sprites.add(sim_txt)
 
 

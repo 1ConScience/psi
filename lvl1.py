@@ -46,16 +46,16 @@ def lvl1():
 
     gen_structure_lvl(0,0)
 
-    drug_txt = Texte("C'est une drogue",-150, 600+300,(255, 255, 255))
+    drug_txt = Texte("The cake is NOT a lie",-150, 600+300,(255, 255, 255))
     all_sprites.add(drug_txt)
 
     tout_en_bas_txt = Texte("?",-200, 2100,(255, 255, 255))
     all_sprites.add(tout_en_bas_txt)
 
-    mid_txt = Texte("J'ai compté, il y en a 272",3650, -250,(255, 255, 255))
+    mid_txt = Texte("I counted, there are 272 steps",3650, -250,(255, 255, 255))
     all_sprites.add(mid_txt)
 
-    fin_escalier_droite_txt = Texte("Je te sens perplexe Epsilon",7300, -800,(255, 255, 255))
+    fin_escalier_droite_txt = Texte("Please, don't kill yourself Epsilon",7300, -800,(255, 255, 255))
     all_sprites.add(fin_escalier_droite_txt)
 
     check_haut_escalier = False
@@ -96,7 +96,7 @@ def lvl1():
             check_haut_escalier = True
             if check_bas_derniere_platform:
                 tout_en_bas_txt.kill()
-                tout_en_bas_txt = Texte("Tiens ton susucre :)",-200, 2100,(255, 255, 255))
+                tout_en_bas_txt = Texte("Here is your cake :)",-200, 2100,(255, 255, 255))
                 all_sprites.add(tout_en_bas_txt)
 
                 PTNEXT = MagicPlatform((1000, 20),(-800, 2350))
@@ -113,7 +113,7 @@ def lvl1():
             check_bas_derniere_platform = True
             if check_haut_escalier:
                 fin_escalier_droite_txt.kill()
-                fin_escalier_droite_txt = Texte("Quoi ? Non, je ne me joue pas de toi :)",7300, -800,(255, 255, 255))
+                fin_escalier_droite_txt = Texte("What ? No, I am not kidding you :)",7300, -800,(255, 255, 255))
                 all_sprites.add(fin_escalier_droite_txt)
 
                 PTNEXT2 = MagicPlatform((1000, 20),(7800, -900))

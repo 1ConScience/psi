@@ -87,7 +87,7 @@ def lvl2():
 
 
 
-    never_txt = Texte("Tu préfères laquelle ?",(800/30)*26+500,  650 - 200*26-40-100,(255,255,255))
+    never_txt = Texte("Which one do you prefer ?",(800/30)*26+500,  650 - 200*26-40-100,(255,255,255))
     all_sprites.add(never_txt)
 
 

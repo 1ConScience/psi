@@ -47,7 +47,7 @@ def lvl7():
 
 
 
-    spanw_txt = Texte("OK, j'arrête de filmer",27-250-20*27-2100+10, 600-10*27-50,(255, 255, 255))
+    spanw_txt = Texte("OK, I stop recording",27-250-20*27-2100+10, 600-10*27-50,(255, 255, 255))
     all_sprites.add(spanw_txt)
 
 

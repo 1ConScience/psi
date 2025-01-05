@@ -21,7 +21,7 @@ def lvl3():
     murs.add(mur_droit)
 
 
-    id_txt = Texte("Les bonnes idées finissent toujours pas revenir",0, 600-50,(255,255,255))
+    id_txt = Texte("Good ideas always come back",0, 600-50,(255,255,255))
     all_sprites.add(id_txt)
 
 
