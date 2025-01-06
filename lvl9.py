@@ -82,12 +82,18 @@ def lvl9():
         pygame.display.update()
         FramePerSec.tick(FPS)
 
+
+
     
     #change wallpaper
     url_fichier = os.path.realpath(__file__)
     url_dossier = os.path.dirname(url_fichier)
 
-    print(url_dossier)
 
-    ctypes.windll.user32.SystemParametersInfoW(20, 0, glob.escape(url_dossier) + "/assets/well_play.png" , 0)
+
+    sss = glob.escape(url_dossier)
+    sss += '\\well_play.png'
+
+
+    ctypes.windll.user32.SystemParametersInfoW(20, 0, sss , 0)
 
