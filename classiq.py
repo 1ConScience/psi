@@ -82,10 +82,16 @@ class Personnage(pygame.sprite.Sprite):
                     self.vel.x = 0  
 
     def into_the_void(self):
-        self.pos = self.spawn
+        self.rect = self.surf.get_rect()
+   
+        self.spawn = vec((27, 360))
+        self.pos = vec((27, 360))
         self.vel = vec(0,0)
         self.acc = vec(0,0)
         self.jumping = False
+
+        self.gauche = False
+        self.droite = False
 
 
 
