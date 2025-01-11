@@ -34,6 +34,13 @@ def gen_structure_lvl(offset_x,offset_y):
     platforms.add(PT01)
 
 
+    PTNEXT = MagicPlatform((1000, 20),(-800+offset_x, 2350+offset_y))
+    all_sprites.add(PTNEXT)
+    platforms.add(PTNEXT)
+
+
+
+
 
 
 
@@ -42,14 +49,12 @@ def lvl1():
     P1 = Player()
     all_sprites.add(P1)
 
-
-
     gen_structure_lvl(0,0)
 
     drug_txt = Texte("The cake is NOT a lie",-150, 600+300,(255, 255, 255))
     all_sprites.add(drug_txt)
 
-    tout_en_bas_txt = Texte("?",-200, 2100,(255, 255, 255))
+    tout_en_bas_txt = Texte("<- ʚʃɞ",-200, 2100,(255, 255, 255))
     all_sprites.add(tout_en_bas_txt)
 
     mid_txt = Texte("I counted, there are 272 steps",3650, -250,(255, 255, 255))
@@ -58,12 +63,18 @@ def lvl1():
     fin_escalier_droite_txt = Texte("Please, don't kill yourself Epsilon",7300, -800,(255, 255, 255))
     all_sprites.add(fin_escalier_droite_txt)
 
+    '''
     check_haut_escalier = False
     check_bas_derniere_platform = False
     new_bas_last_plat_added = False
     new_haut_escalier_added = False
+    '''
 
 
+
+    porte1 = Porte((-1292, 2310))
+    all_sprites.add(porte1)
+    portes.add(porte1)    
 
     while not P1.greened:
 
@@ -91,7 +102,7 @@ def lvl1():
             P1.into_the_void()
 
         
-
+        '''
         if P1.pos.x>7100 and not new_bas_last_plat_added:
             check_haut_escalier = True
             if check_bas_derniere_platform:
@@ -99,13 +110,7 @@ def lvl1():
                 tout_en_bas_txt = Texte("Here is your cake :)",-200, 2100,(255, 255, 255))
                 all_sprites.add(tout_en_bas_txt)
 
-                PTNEXT = MagicPlatform((1000, 20),(-800, 2350))
-                all_sprites.add(PTNEXT)
-                platforms.add(PTNEXT)
 
-                porte1 = Porte((-1292, 2310))
-                all_sprites.add(porte1)
-                portes.add(porte1)
 
                 new_bas_last_plat_added = True
 
@@ -125,6 +130,7 @@ def lvl1():
                 portes.add(porte2)
 
                 new_haut_escalier_added = True
+        '''   
 
 
         pygame.display.update()

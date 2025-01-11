@@ -32,6 +32,11 @@ def lvl9():
 
     gen_structure_lvl(-2500,-2500)
 
+
+    drug_txt = Texte("Here is your cake ʚʃɞ",-150-2500, 600+300-2500,(255, 255, 255))
+    all_sprites.add(drug_txt)
+
+
     fin_escalier_droite_txt = Texte("I will always be there",7300-2500, -800-2500,(255, 255, 255))
     all_sprites.add(fin_escalier_droite_txt)
 
