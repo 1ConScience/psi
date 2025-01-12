@@ -33,7 +33,7 @@ def lvl9():
     gen_structure_lvl(-2500,-2500)
 
 
-    drug_txt = Texte("Here is your cake ʚʃɞ",-150-2500, 600+300-2500,(255, 255, 255))
+    drug_txt = Texte("I'm cooking the cake",-150-2500, 600+300-2500,(255, 255, 255))
     all_sprites.add(drug_txt)
 
 

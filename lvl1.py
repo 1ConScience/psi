@@ -54,10 +54,10 @@ def lvl1():
     drug_txt = Texte("The cake is NOT a lie",-150, 600+300,(255, 255, 255))
     all_sprites.add(drug_txt)
 
-    tout_en_bas_txt = Texte("<- ʚʃɞ",-200, 2100,(255, 255, 255))
+    tout_en_bas_txt = Texte("",-200, 2100,(255, 255, 255))
     all_sprites.add(tout_en_bas_txt)
 
-    mid_txt = Texte("I counted, there are 272 steps",3650, -250,(255, 255, 255))
+    mid_txt = Texte("There are 272 steps",3650, -250,(255, 255, 255))
     all_sprites.add(mid_txt)
 
     fin_escalier_droite_txt = Texte("Please, don't kill yourself Epsilon",7300, -800,(255, 255, 255))
